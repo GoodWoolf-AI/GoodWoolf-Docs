@@ -1,0 +1,17 @@
+---
+sidebar_position: 2
+---
+
+# Prepare Training Data
+
+Tranining data is private, however the project bundles some public datasets for convinience. The following pretraining datasets are available:
+- Shakespeare
+- OpenWebText
+
+To prepre any of these datasets for a specfic model:
+
+```
+goodwoolf prepare <vendor>/<model> <dataset>
+```
+
+The dataset will be fetched and prepared in folder `$GOODWOOLF_DATA/data/<dataset>/<vendor>/<model>`.

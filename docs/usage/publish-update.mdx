@@ -1,0 +1,34 @@
+---
+sidebar_position: 8
+---
+
+# Publish a Model Update
+
+Publishing a model update is similar to publishing a new model. The difference is that the model weights are the result of pretraining, fine-tuning, or aggregation of model deltas, rather than the creation of randomized model weights.
+
+To publish a model update:
+
+1. Create Safetensors weights from your traind model checkpoint:
+
+```bash
+goodwoolf save <vendor>/<model> \
+--load-path $GOODWOOLF_MODELS/<vendor>/<model>/chpt.pt \
+``````
+
+2. Upload your initial model weights to a public URL (e.g., a Hugging Face model):
+- `$GOODWOOLF_MODELS/<vendor>/<model>`
+
+3. Create a PR for the [Training Ledger](https://huggingface.co/goodwoolf/goodwoolf-ledger) repo with the ledger file:
+- `<gw_ledger_repo>/<vendor>/<model>/training.ledger.json`
+
+Add a new entry to the model ledger:
+```bash
+goodwoolf ledger <vendor>/<model> --create pretrained
+```
+
+Update the `training.ledger.json` in (3) and set the new entry's `url` to the URL in (1) where the updated model weights are uploaded. Set the `operator` to `pretrained`, `finetuned` or `aggregated`, depending on how the weights were created. Set the `inputs` to the base training model or a list of aggregated models, each referenced by its entry ID. Check the entry:
+```bash
+goodwoolf ledger <vendor>/<model> --check
+```
+
+The remaining steps to publish the model updates PR are the same as for the new model.

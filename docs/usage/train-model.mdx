@@ -1,0 +1,19 @@
+---
+sidebar_position: 4
+---
+
+# Train Model
+
+Models can be pretrained of finetuned, however the models bundled with the project repo currenlty support only pretraining.
+
+To pretrain a model:
+
+```bash
+goodwoolf pretrain <vendor>/<model> <dataset>
+```
+
+This will create a check-point with updated model weiths. Before the new weights can be published, save the weights in Safetensors format:
+
+```bash
+goodwoolf save <vendor>/<model>
+```

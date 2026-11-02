@@ -1,0 +1,29 @@
+---
+sidebar_position: 6
+---
+
+# Create a New Model
+
+New models are added to and shared through this repo.
+
+To create a new model:
+
+1. Install the module in editable mode:
+
+```bash
+uv pip install -e .
+```
+
+2. Create a new model configuration, traning code and initial weights:
+
+```bash
+goodwoolf create <vendor>/<model> --config --model --weights
+```
+
+The command creates the following folders:
+
+- `<gw_repo>/src/goodwoolf/config/<vendor>/<model>` - Model configuration feched from Hugging Face.
+- `<gw_repo>/src/goodwoolf/models/<vendor>/<model>` - Model training code generated from a template in Python.
+- `$GOODWOOLF_MODELS/<vendor>/<model>` - Initial model weights.
+
+While this command is provided for convenience, you can also create or modify the configuration and traning code files manually for complete customization.

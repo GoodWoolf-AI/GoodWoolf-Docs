@@ -1,8 +1,8 @@
 {
-  "label": "Setup",
+  "label": "Setup Instructions",
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "Setup and Configuration."
+    "description": "Setup Instructions"
   }
 }

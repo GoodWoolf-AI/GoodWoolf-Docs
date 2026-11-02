@@ -1,0 +1,63 @@
+---
+sidebar_position: 7
+---
+
+# Publish a New Model
+
+Model code and configuration are shared through this repo. Model weights are shared through the [Training Ledger](https://huggingface.co/goodwoolf/goodwoolf-ledger) repo.
+
+Sharing large model weights requires storing them in a repository that provides a public URL from which others can download them. The example below uses Hugging Face, but you can store the weights anywhere, as long as they are accessible through a public URL.
+
+To publish a new model for collaborative training:
+
+1. Upload your initial model weights to a public URL (e.g., a Hugging Face model):
+- `$GOODWOOLF_MODELS/<vendor>/<model>`
+
+For example to upload model weights to Hugging Face:
+```bash
+hf upload <hf_user>/<hf_model> $GOODWOOLF_MODELS/<vendor>/<model> <vendor>/<model> --exclude "*.pt"
+```
+
+2. Create a PR for this repo with these folders:
+- `<gw_repo>/src/goodwoolf/config/<vendor>/<model>`
+- `<gw_repo>/src/goodwoolf/models/<vendor>/<model>`
+
+3. Create a PR for the [Training Ledger](https://huggingface.co/goodwoolf/goodwoolf-ledger) repo with the ledger file:
+- `<gw_ledger_repo>/<vendor>/<model>/training.ledger.json`
+
+First clone the ledger repo:
+```bash
+git clone https://user:$HF_TOKEN@huggingface.co/datasets/goodwoolf/training-ledger
+```
+
+Add a new entry to the model ledger:
+```bash
+goodwoolf ledger <vendor>/<model> --create randomized
+```
+
+Update the `training.ledger.json` in (3) and set the new entry's `url` to the URL in (1) where the initial model weights are uploaded, then check the entry:
+```bash
+goodwoolf ledger <vendor>/<model> --check
+```
+
+Create a new PR ref as HF discussion:
+```bash
+hf discussions create goodwoolf/training-ledger \
+  --repo-type dataset \
+  --title "Model ledger update" \
+  --body "Description of the ledger update" \
+  --pull-request
+```
+
+List all PR and make a node of your `PR_NUMBER`:
+```bash
+hf discussions list goodwoolf/test --repo-type=dataset --kind pull_request
+```
+
+Then finally commit and push the ledger file to the new PR branch:
+```bash
+git commit -m "Training ledger"
+git push origin HEAD:refs/pr/<PR_NUMBER>
+```
+
+When all PR changes are ready, publish the PR from HF portal.
