@@ -5,15 +5,15 @@ import Link from '@docusaurus/Link';
 const categories = [
   {
     label: 'Get Started',
-    path: '/get-started/intro',
+    path: '/introduction',
   },
   {
-    label: 'Tutorial Basics',
-    path: '/tutorial-basics/create-a-page',
+    label: 'Setup Instructions',
+    path: '/environment',
   },
   {
-    label: 'Tutorial Extras',
-    path: '/tutorial-extras/manage-docs-versions',
+    label: 'Usage Examples',
+    path: '/naming-conventions',
   },
 ];
 
