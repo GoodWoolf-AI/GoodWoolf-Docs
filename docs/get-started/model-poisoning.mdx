@@ -1,0 +1,14 @@
+---
+id: poisoning
+title: Model Poisoning Controls
+sidebar_position: 5
+slug: /model-poisoning
+---
+
+# Model Poisoning Controls
+
+GoodWoolf mitigates model poisoning and malicious submissions through Deterministic Gatekeeping (Benchmark Verification).
+
+Because the ecosystem does not apply updates on trust, malicious or poorly trained models are inherently isolated. Every Pull Request must pass an automated evaluation script against a standardized, held-out validation dataset before it can alter the global model state. 
+
+If a malicious actor submits poisoned weights, falsified data, or an update that causes catastrophic forgetting, the proposal will fail to meet the benchmark metrics and will be automatically rejected. Furthermore, because the entire PR history and initialization seeds are transparently logged, peer nodes acting as decentralized auditors can easily flag and blacklist persistent bad actors, maintaining a self-correcting and trustless ledger.

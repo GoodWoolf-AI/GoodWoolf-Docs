@@ -1,0 +1,22 @@
+---
+id: env
+title: Python Environment
+sidebar_position: 1
+slug: /environment
+---
+
+# Python Environment
+
+GoodWoolf uses [uv](https://docs.astral.sh/uv/) for dependency management.
+
+To setup and activate Python environment:
+
+```bash
+uv sync
+source .venv/bin/activate
+```
+
+The project uses the following environment variables:
+- `GOODWOOLF_DATA` - Directory path to store training data. If not set, it defaults to `$HOME/.goodwoolf/data`.
+- `GOODWOOLF_MODELS` - Directory path to store model weights. If not set, it defaults to `$HOME/.goodwoolf/models`.
+- `GOODWOOLF_LEDGER` - Directory path to the training ledger repo. Must be defined for automated ledger updates.

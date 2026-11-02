@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'GoodWoolf Documenation',
   tagline: 'Building Foundation Models on Commodity Hardware',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/icon.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -91,13 +91,6 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      // title: 'GoodWoolf',
-      logo: {
-        alt: 'GoodWoolf',
-        src: 'img/logo_black.svg',
-        srcDark: 'img/logo_white.svg',
-        // href: 'http://127.0.0.1:8000/',
-      },
       items: [
         {
           type: 'docSidebar',
@@ -113,7 +106,7 @@ const config: Config = {
         {
           type: 'search',
           position: 'right',
-        },        
+        },
         {
           href: 'https://github.com/GoodWoolfAI/GoodWoolf',
           label: 'GitHub',

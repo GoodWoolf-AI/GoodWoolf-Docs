@@ -1,0 +1,38 @@
+---
+id: ledger
+title: Traning Ledger
+sidebar_position: 3
+slug: /trining-ledger
+---
+
+# Training Ledger Structure
+
+The ledger is stored in the [Training Ledger](https://huggingface.co/goodwoolf/goodwoolf-ledger) repository as a separate JSON file for each model in training.
+
+Each model update is represented by an entry in the file, using the following format:
+
+```json
+{
+    "id": "<your_model_hash>",
+    "provider": "<your_user_name>",
+    "url": "<your_model_url>",
+    "weights": {
+        "model.safetensors.index.json": "<sha1sum>",
+        "<safetensors_filename>": "<sha1sum>",
+        "<additional_safetensors_filename>": "<sha1sum>"
+    },
+    "inputs": [
+        "<input_model_uuid>",
+        "<additional_input_model_uuid>"
+    ],
+    "operator": "<method_used_to_create_the_model>"
+}
+```
+
+The `id` entry is the SHA-1 hash of all the files listed in `weights`, combined.
+
+The supported operators are:
+- `randomized`: Initialized a model with randomized weights (0 inputs).
+- `pretrained`: Pretrained a model on top of a base model (1 model input).
+- `finetuned`: Finetuned the model on top of a base model (1 model input).
+- `aggregated`: Aggregated weight deltas from multiple trained models onto a base model (1 or more inputs).

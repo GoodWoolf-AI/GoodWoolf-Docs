@@ -1,0 +1,25 @@
+---
+id: time
+title: Traning Time
+sidebar_position: 4
+slug: /training-time
+---
+
+# Collective Training Time
+
+Because training occurs asynchronously across contributors, the aggregate training time does not depend on a global synchronization barrier or the speed of the slowest node. Workloads run fully concurrently, meaning the system never pauses to wait for a specific training run or a global reduction tree to complete.
+
+When a node submits an update, it is validated, aggregated, and merged directly into the global model by network peers or auditors. Because the calculations for handling race conditions and staleness are distributed across the validation network, individual trainers incur constant (O(1)) coordination overhead-they immediately resume training on the latest weights without waiting for other contributors.
+
+The total operational time to process a sequence of updates can be expressed as:
+
+`TTT = O(T_max + V * N)`
+
+where:
+- `T_max` is the time taken by the longest individual local training run.
+- `V` is the download, evaluation and validation overhead during merge step.
+- `N` is the total number of updates committed to the log.
+
+Note: Storage I/O can be substantially slower than RAM I/O, which influences the practical time (V) spent reading and writing updates during validation. The overall throughput depends on storage performance, network latency, model size, and validation dataset size.
+
+This architecture differs entirely from conventional large-scale, fixed-infrastructure training, where clusters must remain strictly synchronized and training time scales linearly with the total size of the global training dataset. Here, scaling is decoupled from global data volume, allowing decentralized networks to train large models without high-performance data centres.
