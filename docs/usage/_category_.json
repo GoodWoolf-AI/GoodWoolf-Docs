@@ -3,6 +3,6 @@
   "position": 4,
   "link": {
     "type": "generated-index",
-    "description": "Usage Examples"
+    "description": "Examples of how to use the GoodWoolf Python package to manage model training."
   }
 }

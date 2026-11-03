@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'GoodWoolf Documenation',
+  title: 'GoodWoolf',
   tagline: 'Building Foundation Models on Commodity Hardware',
   favicon: 'img/icon.svg',
 
@@ -96,7 +96,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'GoodWoolf Documentation',
+          label: 'GoodWoolf Docs',
         },
         // {
         //   to: '/blog',

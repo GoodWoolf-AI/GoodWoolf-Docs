@@ -7,9 +7,9 @@ slug: /training-process
 
 # Training Process
 
-The training process is hardware-agnostic, parallel, and completely asynchronous. 
+The training process is hardware-agnostic, parallel, and completely asynchronous. The training process is managed via [GoodWoolf Core](/training-package), a Python package with a command-line interface (CLI).
 
-Model weights are available throughout the entire training process. Both the global model weights and the submitted log transitions are fully observable. Model weights are versioned and tracked in a central, publicly accessible Git repository: [Training Ledger](https://huggingface.co/goodwoolf/goodwoolf-ledger).
+Model weights are available throughout the entire training process. Both the global model weights and the submitted log transitions are fully observable. Model weights are versioned and tracked in a central, publicly accessible [Training Ledger](/training-ledger).
 
 Because nodes train independently, a Pull Request may be submitted based on an older version of the global weights. Rather than discarding this work, the validation pipeline calculates the update's staleness relative to the current live base model. It applies an attenuation penalty (&alpha;) to the update's delta during the evaluation or merging process, ensuring that heavily out-of-date updates do not disrupt recent optimizations.
 
