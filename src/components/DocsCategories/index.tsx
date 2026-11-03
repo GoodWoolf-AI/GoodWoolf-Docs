@@ -9,11 +9,11 @@ const categories = [
   },
   {
     label: 'Setup Instructions',
-    path: '/environment',
+    path: '/setup/environment',
   },
   {
     label: 'Usage Examples',
-    path: '/naming-conventions',
+    path: '/usage/naming-conventions',
   },
 ];
 
