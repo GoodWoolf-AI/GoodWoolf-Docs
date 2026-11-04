@@ -1,13 +1,19 @@
 ---
 id: intro
 title: Introduction
-sidebar_position: 1
+sidebar_position: 2
 slug: /introduction
 ---
 
-# Introduction
+# Introduction  
 
-GoodWoolf is a federated learning framework for training large language models (LLMs) on standard computers. The project coordinates training execution and manages the distribution and aggregation of model weights across all participating systems. Each participant trains on its own local data independently to produce weight updates for others.
+GoodWoolf builds large foundation models on commodity hardware using the following principles:
+
+- **Virtual Memory Extension:** Expanding effective memory beyond physical RAM by leveraging storage-based virtual memory.
+- **Central Training Ledger:** Coordinating fully asynchronous, decentralized state transitions through a shared public ledger.
+- **Data-Independent Scaling:** Decoupling total training time from global data volume, bounding system latency to individual run durations rather than aggregate data sizes.
+
+The project provides a federated learning framework for training large language models (LLMs) on standard computers. It coordinates training execution and manages the distribution and aggregation of model weights across all participating systems. Each participant trains on its own local data independently to produce weight updates for others.
 
 To enable large-scale training on commodity hardware, GoodWoolf utilizes model offloading. This process shuffles the model state between VRAM/RAM and persistent storage, acting as virtual memory to bypass physical hardware limitations. The project features a public training log that supports asynchronous, decentralized coordination. This allows disconnected nodes to complete training runs independently and commit updates as pull requests. Peers or independent auditors then validate and aggregate these updates, eliminating the need for continuous peer-to-peer connections or a centralized runtime server.
 

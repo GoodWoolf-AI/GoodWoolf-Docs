@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'GoodWoolf',
   tagline: 'Building Foundation Models on Commodity Hardware',
-  favicon: 'img/icon.svg',
+  favicon: './img/icon.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -18,7 +18,7 @@ const config: Config = {
   url: 'https://goodwoolf.ai',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -92,12 +92,20 @@ const config: Config = {
     },
     navbar: {
       items: [
+        // Goes to sidebar document
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          type: 'doc',
+          docId: 'get-started/index',
+          label: 'GoodWoolf Documentation',
           position: 'left',
-          label: 'GoodWoolf Docs',
-        },
+        },        
+        // Goes to sidebar category
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'tutorialSidebar',
+        //   position: 'left',
+        //   label: 'GoodWoolf Documentation',
+        // },
         // {
         //   to: '/blog',
         //   label: 'Blog',

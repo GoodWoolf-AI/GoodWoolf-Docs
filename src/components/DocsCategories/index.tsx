@@ -8,11 +8,15 @@ const categories = [
     path: '/introduction',
   },
   {
-    label: 'Setup Instructions',
+    label: 'Features',
+    path: '/features/training-process',
+  },
+  {
+    label: 'Configure',
     path: '/setup/environment',
   },
   {
-    label: 'Usage Examples',
+    label: 'Usage',
     path: '/usage/naming-conventions',
   },
 ];
