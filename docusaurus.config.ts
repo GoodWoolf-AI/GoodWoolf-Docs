@@ -92,13 +92,19 @@ const config: Config = {
     },
     navbar: {
       items: [
-        // Goes to sidebar document
+        // Goes to root
         {
-          type: 'doc',
-          docId: 'get-started/index',
+          to: '/',
           label: 'GoodWoolf Documentation',
           position: 'left',
         },        
+        // Goes to sidebar document
+        // {
+        //   type: 'doc',
+        //   docId: 'get-started/index',
+        //   label: 'GoodWoolf Documentation',
+        //   position: 'left',
+        // },        
         // Goes to sidebar category
         // {
         //   type: 'docSidebar',
