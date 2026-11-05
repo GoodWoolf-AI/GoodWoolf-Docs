@@ -7,9 +7,10 @@ export default function Logo() {
 
   const blackLogo = useBaseUrl('/img/logo_black.svg');
   const whiteLogo = useBaseUrl('/img/logo_white.svg');
+  const homeUrl = siteConfig.customFields.homeUrl as string;
 
   return (
-    <a href="/" target="_self" className="navbar__brand">
+    <a href={homeUrl} target="_self" className="navbar__brand">
       <img
         src={blackLogo}
         alt="GoodWoolf"

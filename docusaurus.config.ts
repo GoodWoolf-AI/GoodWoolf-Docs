@@ -9,6 +9,11 @@ const config: Config = {
   tagline: 'Building Foundation Models on Commodity Hardware',
   favicon: './img/icon.svg',
 
+  // Custom settings
+  customFields: {
+    homeUrl: 'https://www.goodwoolf.ai',
+  },
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
