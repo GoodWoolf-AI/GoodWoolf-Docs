@@ -1,6 +1,29 @@
-# Website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+<p align="center">
+  <a href="https://www.goodwoolf.ai">
+    <img src="static/img/goodwoolf.svg" alt="GoodWoolf" width="120" height="120">
+  </a>
+</p>
+
+<h1 align="center">GoodWoolf Documentation</h1>
+
+<p align="center">
+  The official documentation for
+  <a href="https://github.com/GoodWoolf-AI/GoodWoolf">GoodWoolf</a>,
+  the open-source project for collaborative training on commodity hardware.
+</p>
+
+<p align="center">
+  <a href="https://www.goodwoolf.ai"><strong>Visit www.goodwoolf.ai »</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://docs.goodwoolf.ai"><strong>View Live Documentation »</strong></a>
+</p>
+
+---
+
+## Framework
+
+This website is built using [Docusaurus](https://docusaurus.io/), a static website generator.
 
 ## Installation
 
@@ -42,7 +65,6 @@ GIT_USER=<Your GitHub username> npm run deploy
 
 If you are using GitHub Pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
 
-# Enable pages
+## License
 
-Rename src/pages-off to src/pages
-In docs/intro.mdx change slug: / to slug: /intro
+Released under the [MIT License](./LICENSE).
