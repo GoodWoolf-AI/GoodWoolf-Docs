@@ -10,7 +10,7 @@
 <p align="center">
   The official documentation for
   <a href="https://github.com/GoodWoolf-AI/GoodWoolf">GoodWoolf</a>,
-  the open-source project for collaborative training on commodity hardware.
+  the open-source project for collaborative AI training on commodity hardware.
 </p>
 
 <p align="center">
