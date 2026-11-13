@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Publish a New Model
 
-Model code and configuration are shared through [GoodWoolf Core](/features/training-package). Model weights are shared through the [Training Ledger](/features/training-ledger) repo.
+Model code and configuration are shared through [GoodWoolf](/features/training-package). Model weights are shared through the [Training Ledger](/features/training-ledger) repo.
 
 Sharing large model weights requires storing them in a repository that provides a public URL from which others can download them. The example below uses Hugging Face, but you can store the weights anywhere, as long as they are accessible through a public URL.
 
@@ -18,7 +18,7 @@ For example to upload model weights to Hugging Face:
 hf upload <hf_user>/<hf_model> $GOODWOOLF_MODELS/<vendor>/<model> <vendor>/<model> --exclude "*.pt"
 ```
 
-2. Create a PR for [GoodWoolf Core](/features/training-package) with these folders:
+2. Create a PR for [GoodWoolf](/features/training-package) with these folders:
 - `<gw_repo>/src/goodwoolf/config/<vendor>/<model>`
 - `<gw_repo>/src/goodwoolf/models/<vendor>/<model>`
 
