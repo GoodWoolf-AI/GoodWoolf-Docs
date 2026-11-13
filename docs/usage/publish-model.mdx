@@ -29,6 +29,10 @@ First clone the ledger repo:
 ```bash
 git clone https://user:$HF_TOKEN@huggingface.co/datasets/goodwoolf/training-ledger
 ```
+And set the path where the training ledger was cloned:
+```bash
+export GOODWOOLF_LEDGER=<gw_ledger_repo>
+```
 
 Add a new entry to the model ledger:
 ```bash
@@ -49,13 +53,14 @@ hf discussions create goodwoolf/training-ledger \
   --pull-request
 ```
 
-List all PR and make a node of your `PR_NUMBER`:
+List all PR and make a note of your `PR_NUMBER`:
 ```bash
-hf discussions list goodwoolf/test --repo-type=dataset --kind pull_request
+hf discussions list goodwoolf/training-ledger --repo-type=dataset --kind pull_request
 ```
 
-Then finally commit and push the ledger file to the new PR branch:
+Then finally add, commit and push the ledger file to the new PR branch:
 ```bash
+git add .
 git commit -m "Training ledger"
 git push origin HEAD:refs/pr/<PR_NUMBER>
 ```
