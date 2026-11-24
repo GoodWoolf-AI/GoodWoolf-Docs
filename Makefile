@@ -1,0 +1,61 @@
+# Make sure a user-space gh install is found
+export PATH := $(HOME)/.local/bin:$(PATH)
+
+VERSION  = $(shell node -p "require('./package.json').version")
+TAG      = v$(VERSION)
+ARTIFACT = goodwoolf-docs-$(TAG).tgz
+REPO ?= $(shell git remote get-url origin | sed -E 's#^(git@|ssh://git@|https://)[^:/]+[:/]##; s#\.git$$##')
+
+.PHONY: release tick-version build clean check-gh install-gh
+
+tick-version:
+	npm version patch --no-git-tag-version
+	@echo "Version is now $$(node -p "require('./package.json').version")"
+
+# Install the GitHub CLI into ~/.local/bin (Linux, no sudo).
+# Skips if gh is already installed; use `make install-gh FORCE=1` to reinstall/update.
+install-gh:
+	@set -e; \
+	if command -v gh >/dev/null 2>&1 && [ -z "$(FORCE)" ]; then \
+		echo "gh already installed: $$(gh --version | head -1)"; exit 0; \
+	fi; \
+	[ "$$(uname -s)" = "Linux" ] || { echo "install-gh supports Linux only. On macOS use: brew install gh"; exit 1; }; \
+	case "$$(uname -m)" in \
+		x86_64) ARCH=amd64 ;; \
+		aarch64|arm64) ARCH=arm64 ;; \
+		*) echo "Unsupported arch: $$(uname -m)"; exit 1 ;; \
+	esac; \
+	VERSION=$$(curl -fsSL https://api.github.com/repos/cli/cli/releases/latest \
+		| grep -m1 '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/'); \
+	[ -n "$$VERSION" ] || { echo "Could not determine latest gh version"; exit 1; }; \
+	echo "Installing gh $$VERSION ($$ARCH) to $(HOME)/.local/bin"; \
+	TMP=$$(mktemp -d); \
+	trap 'rm -rf "$$TMP"' EXIT; \
+	curl -fsSL -o "$$TMP/gh.tgz" \
+		"https://github.com/cli/cli/releases/download/v$$VERSION/gh_$${VERSION}_linux_$$ARCH.tar.gz"; \
+	tar xzf "$$TMP/gh.tgz" -C "$$TMP"; \
+	mkdir -p "$(HOME)/.local/bin"; \
+	cp "$$TMP/gh_$${VERSION}_linux_$$ARCH/bin/gh" "$(HOME)/.local/bin/gh"; \
+	echo "Installed: $$($(HOME)/.local/bin/gh --version | head -1)"; \
+	echo "Next: run 'gh auth login' or set GH_TOKEN."
+
+check-gh:
+	@command -v gh >/dev/null 2>&1 || \
+		(echo "gh CLI not found. Run 'make install-gh'." && exit 1)
+	@gh auth status >/dev/null 2>&1 || \
+		(echo "gh is not authenticated. Run 'gh auth login' or set GH_TOKEN." && exit 1)
+
+build:
+	npm run build
+
+release: check-gh build
+	@test -f RELEASE.md || (echo "RELEASE.md not found." && exit 1)
+	@git diff --quiet -- package.json package-lock.json || \
+		(echo "package.json has uncommitted changes. Commit the version bump first." && exit 1)
+	tar czf $(ARTIFACT) -C build .
+	@git rev-parse "$(TAG)" >/dev/null 2>&1 || git tag $(TAG)
+	git push origin $(TAG)
+	gh release create $(TAG) $(ARTIFACT) --repo $(REPO) --verify-tag --title "$(TAG)" --notes-file RELEASE.md
+
+clean:
+	rm -f $(ARTIFACT)

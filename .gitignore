@@ -3,6 +3,7 @@
 
 # Production
 /build
+*.tgz
 
 # Generated files
 .docusaurus
