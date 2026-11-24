@@ -4,14 +4,30 @@ sidebar_position: 2
 
 # Prepare Training Data
 
-Tranining data is private, however the project bundles some public datasets for convinience. The following pretraining datasets are available:
-- Shakespeare
-- OpenWebText
+Training data is private, but the project bundles a small set of public datasets. List the installed datasets:
 
-To prepre any of these datasets for a specfic model:
-
-```
-goodwoolf prepare <vendor>/<model> <dataset>
+```bash
+gw dataset --list
 ```
 
-The dataset will be fetched and prepared in folder `$GOODWOOLF_DATA/data/<dataset>/<vendor>/<model>`.
+| Dataset ID | Stage | Notes |
+| --- | --- | --- |
+| `nvidia/climbmix` | NTP | ClimbMix pretraining corpus; upstream `nvidia/Nemotron-ClimbMix`. |
+| `alea-institute/kl3m-usc` | NTP | KL3M US Code corpus; upstream `alea-institute/kl3m-data-usc`. |
+| `Skylion007/openwebtext` | NTP | OpenWebText web-text corpus. |
+| `Salesforce/wikitext` | NTP | WikiText-2 language-modeling corpus. |
+| `allenai/ai2_arc` | SFT | AI2 Reasoning Challenge multiple-choice science questions. |
+| `openai/humaneval` | SFT | HumanEval Python coding problems; upstream `openai/openai_humaneval`. |
+| `cais/mmlu` | SFT | MMLU multiple-choice knowledge across 57 subjects. |
+| `HuggingFaceTB/smoltalk` | SFT | SmolTalk conversational data; upstream `HuggingFaceTB/smol-smoltalk`. |
+| `openai/gsm8k` | SFT, RL | Grade-school math word problems with worked solutions. |
+
+To fetch and prepare one of these datasets:
+
+```bash
+gw dataset <DATASET> --fetch --prepare
+```
+
+For example, `gw dataset openai/gsm8k --fetch --prepare` prepares the GSM8K dataset for SFT and RL. Dataset scripts also support `--metadata` to print statistics, `--split SPLIT` to select a split, and `--sample START COUNT` to inspect records.
+
+Prepared data is written under `$GOODWOOLF_DATA/<DATASET>`. Training stages load it by passing the same ID with `--data-name`; see [Train Model](train-model).

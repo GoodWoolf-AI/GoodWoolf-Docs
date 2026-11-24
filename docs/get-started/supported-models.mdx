@@ -1,0 +1,32 @@
+---
+sidebar_position: 2
+---
+
+# Supported Models
+
+Version 0.1.0 bundles three model IDs. These are the `<vendor>/<model>` names used by the CLI.
+
+| Model ID | Summary |
+| --- | --- |
+| `GoodWoolf/Puppy` | Native LLaMA-style model; 12 layers, 768 hidden size, 32K vocab, 2048 context. `TOK` trains a RustBPE tokenizer. |
+| `OpenAI-Community/GPT2` | Hugging Face GPT-2 small wrapper; 12 layers, 768 hidden size, 50,257 vocab, 1024 context. `TOK` prepares the token-byte cache only. |
+| `Qwen/Qwen2-0.5B` | Hugging Face Qwen2 wrapper; 24 layers, 896 hidden size, 151,936 vocab, 131,072 context. `TOK` prepares the token-byte cache only. |
+
+List installed or remote models:
+
+```bash
+gw model --list
+gw model --list <vendor>
+gw model --list --remote hf [vendor]
+```
+
+Create a new model from the GPT2 template, then fetch its config and generate randomized weights:
+
+```bash
+gw model <vendor>/<model> --template OpenAI-Community/GPT2
+gw model <vendor>/<model> --config --weights
+```
+
+Template copying skips `config/`, so model config is fetched with `--config`, not copied from the template.
+
+`goodwoolf` and `gw` are equivalent CLI entry points. See [Create a New Model](/usage/create-model) and [Train Model](/usage/train-model) for the surrounding workflow.

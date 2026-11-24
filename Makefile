@@ -3,7 +3,7 @@ export PATH := $(HOME)/.local/bin:$(PATH)
 
 VERSION  = $(shell node -p "require('./package.json').version")
 TAG      = v$(VERSION)
-ARTIFACT = goodwoolf-docs-$(TAG).tgz
+ARTIFACT = goodwoolf-docs-$(TAG).zip
 REPO ?= $(shell git remote get-url origin | sed -E 's#^(git@|ssh://git@|https://)[^:/]+[:/]##; s#\.git$$##')
 
 .PHONY: release tick-version build clean check-gh install-gh
@@ -50,12 +50,16 @@ build:
 
 release: check-gh build
 	@test -f RELEASE.md || (echo "RELEASE.md not found." && exit 1)
-	@git diff --quiet -- package.json package-lock.json || \
-		(echo "package.json has uncommitted changes. Commit the version bump first." && exit 1)
-	tar czf $(ARTIFACT) -C build .
+	@test -z "$$(git status --porcelain)" || \
+		{ echo "Working tree has uncommitted changes. Commit them first."; exit 1; }
+	(cd build && zip -rq ../$(ARTIFACT) .)
 	@git rev-parse "$(TAG)" >/dev/null 2>&1 || git tag $(TAG)
 	git push origin $(TAG)
 	gh release create $(TAG) $(ARTIFACT) --repo $(REPO) --verify-tag --title "$(TAG)" --notes-file RELEASE.md
 
 clean:
 	rm -f $(ARTIFACT)
+	rm -rf .docusaurus/
+	rm -rf node_modules/.cache/
+	rm -rf build
+	npm run clear

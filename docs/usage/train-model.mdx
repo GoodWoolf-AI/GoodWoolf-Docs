@@ -4,16 +4,48 @@ sidebar_position: 4
 
 # Train Model
 
-Models can be pretrained of finetuned, however the models bundled with the project repo currenlty support only pretraining.
-
-To pretrain a model:
+Train a model with `gw train` and a stage:
 
 ```bash
-goodwoolf pretrain <vendor>/<model> <dataset>
+gw train <vendor>/<model> --stage TOK|NTP|SFT|RL [trainer args...]
 ```
 
-This will create a check-point with updated model weiths. Before the new weights can be published, save the weights in Safetensors format:
+| Stage | Purpose |
+| --- | --- |
+| `TOK` | Tokenizer training for Puppy; token-byte cache preparation for Hugging Face models. Preparation only, not a ledger operator. |
+| `NTP` | Next-token prediction (base pretraining). |
+| `SFT` | Supervised fine-tuning with full-answer prediction. |
+| `RL` | Reinforcement learning with free thinking and final-answer prediction. |
+
+`--num-epochs` sets the training horizon and `--examples-per-update` sets the update granularity. The default for `examples-per-update` is 64 for NTP, 64 for SFT, and 16 for RL.
+
+Examples for Puppy and Hugging Face models:
 
 ```bash
-goodwoolf save <vendor>/<model>
+# Train the Puppy tokenizer on ClimbMix
+gw train GoodWoolf/Puppy --stage TOK --data-name nvidia/climbmix
+
+# Base pretraining
+gw train GoodWoolf/Puppy --stage NTP --data-name nvidia/climbmix \
+  --num-epochs 2 --examples-per-update 64
+gw train OpenAI-Community/GPT2 --stage NTP --data-name Skylion007/openwebtext \
+  --num-epochs 1 --examples-per-update 64
+
+# Fine-tuning on conversations and reinforcement learning on math problems
+gw train GoodWoolf/Puppy --stage SFT --data-name HuggingFaceTB/smoltalk \
+  --num-epochs 1 --examples-per-update 64
+gw train GoodWoolf/Puppy --stage RL --data-name openai/gsm8k \
+  --num-epochs 1 --examples-per-update 16
 ```
+
+Trainer arguments such as `--data-name`, `--batch-size`, `--eval-iters`, and `--device` are passed through to the stage script. HF `TOK` only builds `token_bytes.pt`; SFT packing and masking are owned by `SFTDataLoader`.
+
+Training writes a checkpoint with optimizer, model, and loader state plus `update_count`, `examples_consumed`, and `best_val_bpb`. SFT loader state includes `buffer`, `epoch`, `finished`, `num_epochs`, and `record_index`, allowing an interrupted run to resume its data stream. Legacy checkpoints without this state restart the data stream.
+
+Before publishing updated weights, save them in Safetensors format:
+
+```bash
+gw save <vendor>/<model> [--load-path PATH]
+```
+
+`--load-path` defaults to `<active model>/chpt.pt`. For the next steps, see [Publish a Model Update](publish-update).

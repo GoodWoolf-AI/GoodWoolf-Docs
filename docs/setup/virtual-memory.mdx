@@ -4,4 +4,59 @@ sidebar_position: 2
 
 # Virtual Memory
 
-Training large models on commodity hardware relies on virtual memory to supplement VRAM. This virtual memory can be configured directly on the training host, or in isolation via hypervisors or containers.
+Training large models on commodity hardware relies on virtual memory to supplement VRAM. The v0.1.0 workflow uses the Podman machine and container targets in the GoodWoolf core repository Makefile. Run these commands from that repository root.
+
+## Prerequisites
+
+Install these helpers before creating a machine:
+
+- `podman`
+- `gvproxy` on `PATH`
+- `virtiofsd` on `PATH` or in `/usr/libexec`
+
+Run:
+
+```bash
+make check-machine
+```
+
+This verifies the prerequisites and prints the resolved paths. The Makefile also generates `.podman-helpers.conf` so Podman can find `gvproxy`.
+
+## Machine targets
+
+```bash
+make setup-machine DISK_SIZE=100 SWAP_SIZE=50 RAM_SIZE=8192
+make open-machine
+make clear-machine
+```
+
+`setup-machine` initializes the machine with `--swap 0`, starts it, then creates and enables `/var/swapfile` inside the machine. `open-machine` starts the machine if needed and opens an SSH shell. `clear-machine` removes the machine and the generated config.
+
+| Variable | Meaning | Default |
+| --- | --- | --- |
+| `RAM_SIZE` | Machine memory in MiB | Required for `setup-machine` |
+| `DISK_SIZE` | Machine disk size in GiB | Required for `setup-machine` |
+| `SWAP_SIZE` | Swap file size in GiB | Required for `setup-machine` |
+| `CPUS` | Machine CPU count | `2` |
+| `MACHINE_NAME` | Podman machine name | `goodwoolf-machine` |
+
+## Container targets
+
+```bash
+make create-container RAM_SIZE=8192 SWAP_SIZE=50
+make start-container
+make stop-container
+make open-container
+make remove-container
+```
+
+`create-container` applies the memory and swap limits to the container. `open-container` starts the container if needed and opens an interactive bash shell; multiple shells can be opened from separate terminals.
+
+| Variable | Meaning | Default |
+| --- | --- | --- |
+| `RAM_SIZE` | Container memory in MiB | Required for `create-container` |
+| `SWAP_SIZE` | Container swap in GiB | Required for `create-container` |
+| `CONTAINER_NAME` | Container name | `goodwoolf` |
+| `IMAGE` | Container image | `docker.io/library/ubuntu:24.04` |
+| `HOST_DIR` | Directory mounted from the host | Core repository root |
+| `CONTAINER_DIR` | Mount point inside the container | `/workspace` |

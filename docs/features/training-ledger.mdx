@@ -4,32 +4,53 @@ sidebar_position: 3
 
 # Training Ledger
 
-**GoodWoolf Training Ledger** is a Git repository hosted on [Hugging Face](https://huggingface.co/datasets/GoodWoolf/Training-Ledger). It maintains a dedicated JSON file for each model under training, providing an organized record of individual training activities.
+**GoodWoolf Training Ledger** is a Git repository hosted on [Hugging Face](https://huggingface.co/datasets/GoodWoolf/Training-Ledger). It maintains a dedicated JSON file for each model under training, providing an organized record of updates.
 
-Each model update is represented by an entry in the file, using the following format:
+Each update is represented by an entry in the file, using the following format:
 
 ```json
 {
-    "id": "<your_model_hash>",
-    "provider": "<your_user_name>",
-    "url": "<your_model_url>",
-    "weights": {
-        "model.safetensors.index.json": "<sha1sum>",
-        "<safetensors_filename>": "<sha1sum>",
-        "<additional_safetensors_filename>": "<sha1sum>"
-    },
-    "inputs": [
-        "<input_model_uuid>",
-        "<additional_input_model_uuid>"
-    ],
-    "operator": "<method_used_to_create_the_model>"
+  "id": "<model_id>",
+  "provider": "<provider_name>",
+  "url": "<weights_url>",
+  "weights": [
+    "model.safetensors.index.json",
+    "<safetensors_filename>"
+  ],
+  "inputs": [
+    "<input_model_id>"
+  ],
+  "operator": "NTP"
 }
 ```
 
-The `id` entry is the SHA-1 hash of all the files listed in `weights`, combined.
+The `id` entry is the SHA-1 hash of all the files listed in `weights`, combined. `inputs` references the parent model IDs; the zero-stage `RND` entry has no inputs.
 
-The supported operators are:
-- `randomized`: Initialized a model with randomized weights (0 inputs).
-- `pretrained`: Pretrained a model on top of a base model (1 model input).
-- `finetuned`: Finetuned the model on top of a base model (1 model input).
-- `aggregated`: Aggregated weight deltas from multiple trained models onto a base model (1 or more inputs).
+Ledger entries use stage-code operators:
+
+| Operator | Meaning |
+| --- | --- |
+| `RND` | Zero stage; publish a newly created model with randomized weights. |
+| `NTP` | Base pretraining update. |
+| `SFT` | Supervised fine-tuning update. |
+| `RL` | Reinforcement-learning update. |
+| `AGG` | Aggregated update. |
+
+Create and check entries with:
+
+```bash
+gw ledger <vendor>/<model> --create <OPERATOR>
+gw ledger <vendor>/<model> --check
+```
+
+Use `--create RND` when publishing a new model with randomized weights. Use `NTP`, `SFT`, `RL`, or `AGG` for updates produced by those stages or by aggregation.
+
+Ledger entry IDs are referenced with `--model-id` by model commands:
+
+```bash
+gw pull <vendor>/<model> [--model-id <MODEL_ID>]
+gw checkout <vendor>/<model> --model-id <MODEL_ID>
+gw merge <vendor>/<model> --data-name <DATASET> --model-id <MODEL_ID>
+```
+
+Migration note: older documentation used `randomized`, `pretrained`, `finetuned`, and `aggregated`. These are legacy names, not current operator values.

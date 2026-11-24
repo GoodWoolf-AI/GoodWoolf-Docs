@@ -4,8 +4,13 @@ sidebar_position: 1
 
 # Naming Conventions
 
+The `gw` command is the current CLI entry point; `goodwoolf` is an equivalent alias.
+
 The usage examples use the following template variables:
-- `<dataset>` - Bundled dataset name.
-- `<vendor>/<model>` - Model namespace containing the vendor (owner) name and model ID.
+- `<vendor>/<model>` - Model namespace containing the vendor (owner) name and model ID, for example `GoodWoolf/Puppy`, `OpenAI-Community/GPT2`, or `Qwen/Qwen2-0.5B`.
+- `<DATASET>` (`<vendor>/<dataset>`) - Bundled dataset ID, for example `nvidia/climbmix` or `openai/gsm8k`.
+- `<MODEL_ID>` - Training ledger entry ID. Pass it with `--model-id` to `gw pull`, `gw checkout`, and `gw merge`.
 - `<gw_repo>` - Path to the repo's root directory (cloned via Git).
 - `<gw_ledger_repo>` - Path to the [Training Ledger](/features/training-ledger) repo's root directory (cloned via Git). The project reads this path from the environment variable `GOODWOOLF_LEDGER`.
+
+Model weights live under `$GOODWOOLF_MODELS/<vendor>/<model>` and prepared datasets under `$GOODWOOLF_DATA/<DATASET>`.

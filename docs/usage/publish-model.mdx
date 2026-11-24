@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 # Publish a New Model
@@ -8,18 +8,17 @@ Model code and configuration are shared through [GoodWoolf](/features/training-p
 
 Sharing large model weights requires storing them in a repository that provides a public URL from which others can download them. The example below uses Hugging Face, but you can store the weights anywhere, as long as they are accessible through a public URL.
 
-To publish a new model for collaborative training:
+To publish a new model, such as a newly created `GoodWoolf/Puppy` variant, for collaborative training:
 
-1. Upload your initial model weights to a public URL (e.g., a Hugging Face model):
+1. Upload your initial randomized weights to a public URL (e.g., a Hugging Face model):
 - `$GOODWOOLF_MODELS/<vendor>/<model>`
 
-For example to upload model weights to Hugging Face:
+For example, to upload model weights to Hugging Face:
 ```bash
 hf upload <hf_user>/<hf_model> $GOODWOOLF_MODELS/<vendor>/<model> <vendor>/<model> --exclude "*.pt"
 ```
 
-2. Create a PR for [GoodWoolf](/features/training-package) with these folders:
-- `<gw_repo>/src/goodwoolf/config/<vendor>/<model>`
+2. Create a PR for [GoodWoolf](/features/training-package) with this folder:
 - `<gw_repo>/src/goodwoolf/models/<vendor>/<model>`
 
 3. Create a PR for the [Training Ledger](/features/training-ledger) repo with the ledger file:
@@ -34,17 +33,17 @@ And set the path where the training ledger was cloned:
 export GOODWOOLF_LEDGER=<gw_ledger_repo>
 ```
 
-Add a new entry to the model ledger:
+Add a new entry to the model ledger using `RND`, the zero stage for a newly published model with randomized weights:
 ```bash
-goodwoolf ledger <vendor>/<model> --create randomized
+gw ledger <vendor>/<model> --create RND
 ```
 
 Update the `training.ledger.json` in (3) and set the new entry's `url` to the URL in (1) where the initial model weights are uploaded, then check the entry:
 ```bash
-goodwoolf ledger <vendor>/<model> --check
+gw ledger <vendor>/<model> --check
 ```
 
-Create a new PR ref as HF discussion:
+Create a new PR ref as an HF discussion:
 ```bash
 hf discussions create goodwoolf/training-ledger \
   --repo-type dataset \
@@ -53,7 +52,7 @@ hf discussions create goodwoolf/training-ledger \
   --pull-request
 ```
 
-List all PR and make a note of your `PR_NUMBER`:
+List all PRs and make a note of your `PR_NUMBER`:
 ```bash
 hf discussions list goodwoolf/training-ledger --repo-type=dataset --kind pull_request
 ```
@@ -65,4 +64,4 @@ git commit -m "Training ledger"
 git push origin HEAD:refs/pr/<PR_NUMBER>
 ```
 
-When all PR changes are ready, publish the PR from HF portal.
+When all PR changes are ready, publish the PR from the HF portal.

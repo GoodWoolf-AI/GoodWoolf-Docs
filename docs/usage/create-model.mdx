@@ -1,29 +1,36 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 # Create a New Model
 
-New models are added to and shared through [GoodWoolf](/features/training-package).
+New models are added to and shared through [GoodWoolf](/features/training-package). The bundled base models are `GoodWoolf/Puppy`, `OpenAI-Community/GPT2`, and `Qwen/Qwen2-0.5B`.
 
-To create a new model:
-
-1. Install the package in editable mode:
+Install the package in editable mode if needed:
 
 ```bash
 uv pip install -e .
 ```
 
-2. Create a new model configuration, traning code and initial weights:
+List models available locally, optionally for one vendor, or from Hugging Face:
 
 ```bash
-goodwoolf create <vendor>/<model> --config --model --weights
+gw model --list
+gw model --list GoodWoolf
+gw model --list --remote hf Qwen
 ```
 
-The command creates the following folders:
+To create a new model, copy the training code from the GPT2 template, then fetch the model configuration and generate randomized weights:
 
-- `<gw_repo>/src/goodwoolf/config/<vendor>/<model>` - Model configuration feched from Hugging Face.
-- `<gw_repo>/src/goodwoolf/models/<vendor>/<model>` - Model training code generated from a template in Python.
-- `$GOODWOOLF_MODELS/<vendor>/<model>` - Initial model weights.
+```bash
+gw model <vendor>/<new-model> --template OpenAI-Community/GPT2
+gw model <vendor>/<new-model> --config --weights
+```
 
-While this command is provided for convenience, you can also create or modify the configuration and traning code files manually for complete customization.
+The commands create the following folders:
+
+- `<gw_repo>/src/goodwoolf/models/<vendor>/<new-model>` - Training code copied from the template.
+- `<gw_repo>/src/goodwoolf/config/<vendor>/<new-model>` - Model configuration fetched with `--config`. Template copying skips `config/`, so fetch it separately.
+- `$GOODWOOLF_MODELS/<vendor>/<new-model>` - Initial randomized weights created with `--weights`.
+
+You can edit the configuration and training code manually for complete customization. Publish newly created randomized weights with the `RND` ledger operator, as described in [Publish a New Model](publish-model).

@@ -6,8 +6,16 @@ sidebar_position: 3
 
 Models are trained starting from base weights. Gradients from the updated models are then aggregated to update the base weights. To create and publish base weights follow [Create a new model](create-model) and [Publish a new model](publish-model).
 
-To download the current base weights for a given model:
+Weights are tracked as entries in the [Training Ledger](/features/training-ledger); each entry has a `<MODEL_ID>` that is passed with `--model-id`.
+
+To download the current base weights for a model:
 
 ```bash
-goodwoolf pull <vendor>/<model>
+gw pull <vendor>/<model> [--model-id <MODEL_ID>]
+```
+
+Without `--model-id`, `gw pull` fetches the current base entry. To make a specific checkpoint the active weights for the model:
+
+```bash
+gw checkout <vendor>/<model> --model-id <MODEL_ID>
 ```

@@ -2,6 +2,7 @@
 /node_modules
 
 # Production
+RELEASE.md
 /build
 *.tgz
 

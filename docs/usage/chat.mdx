@@ -1,0 +1,18 @@
+---
+sidebar_position: 6
+---
+
+# Chat
+
+`gw chat` is the interactive generation path. It loads the active weights for the model name; it has no `--prompt` or `--load-path` option.
+
+```bash
+gw chat <vendor>/<model> [--max-tokens N] [--temperature F] [--top-k N] [--device DEVICE]
+```
+
+Type a message and press Enter to send it. Inside the chat loop:
+
+- `quit` or `exit` ends the session.
+- `clear` starts a new conversation.
+
+For a single one-shot prompt, use [Generate Text](generate-text) with `gw run`.

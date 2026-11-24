@@ -1,0 +1,33 @@
+---
+sidebar_position: 3
+---
+
+# Supported Datasets
+
+Version 0.1.0 installs the following datasets. The stage column shows where each dataset is intended to be used.
+
+| Dataset ID | Stage | Notes |
+| --- | --- | --- |
+| `nvidia/climbmix` | NTP | ClimbMix pretraining corpus; upstream `nvidia/Nemotron-ClimbMix`. |
+| `alea-institute/kl3m-usc` | NTP | KL3M US Code corpus; upstream `alea-institute/kl3m-data-usc`. |
+| `Skylion007/openwebtext` | NTP | OpenWebText web-text corpus. |
+| `Salesforce/wikitext` | NTP | WikiText-2 language-modeling corpus. |
+| `allenai/ai2_arc` | SFT | AI2 Reasoning Challenge multiple-choice science questions. |
+| `openai/humaneval` | SFT | HumanEval Python coding problems; upstream `openai/openai_humaneval`. |
+| `cais/mmlu` | SFT | MMLU multiple-choice knowledge across 57 subjects. |
+| `HuggingFaceTB/smoltalk` | SFT | SmolTalk conversational data; upstream `HuggingFaceTB/smol-smoltalk`. |
+| `openai/gsm8k` | SFT, RL | Grade-school math word problems with worked solutions. |
+
+List installed datasets:
+
+```bash
+gw dataset --list
+```
+
+Fetch and prepare a dataset:
+
+```bash
+gw dataset <DATASET> --fetch --prepare
+```
+
+Dataset scripts also support `--metadata`, `--split`, and `--sample START COUNT` for inspecting prepared data. See [Train Model](/usage/train-model) for stage selection.

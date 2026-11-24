@@ -4,8 +4,10 @@ sidebar_position: 5
 
 # Generate Text
 
-To generate text with current model weights:
+To generate text from a single prompt with the active or specified weights:
 
 ```bash
-goodwoolf run <vendor>/<model> --prompt "Initial prompt"
+gw run <vendor>/<model> --prompt "Initial prompt" [--load-path PATH] [--max-tokens N]
 ```
+
+`--load-path` defaults to the active weights for the model. For an interactive conversation, use [Chat](chat).

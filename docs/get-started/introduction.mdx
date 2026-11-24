@@ -15,9 +15,18 @@ GoodWoolf builds large foundation models collaboratively on commodity hardware u
 
 - **Data-Independent Scaling:** Decoupling total training time from global data volume, bounding system latency to individual run durations rather than aggregate data sizes.
 
-
 The project provides a framework for training large language models (LLMs) on standard computers. It coordinates training execution and manages the distribution and aggregation of model weights across all participating systems. Each participant trains on its own local data independently to produce weight updates for others.
 
 To enable large-scale training on commodity hardware, GoodWoolf utilizes model offloading. This process shuffles the model state between VRAM/RAM and persistent storage, acting as virtual memory to bypass physical hardware limitations. The project features a public training log that supports asynchronous, decentralized coordination. This allows disconnected nodes to complete training runs independently and commit updates as pull requests. Peers or independent auditors then validate and aggregate these updates, eliminating the need for continuous peer-to-peer connections or a centralized runtime server.
 
 While storage offloading introduces latency, GoodWoolf recaptures this lost time through continuous asynchronous parallel training. By allowing many participants to submit updates independently without waiting on each other, the collective throughput of continuous computations outweighs individual hardware bottlenecks. This parallelism enables networks of commodity nodes to train large models without requiring high-performance infrastructure.
+
+## Version 0.1.0
+
+The v0.1.0 package provides a unified CLI for native Puppy and Hugging Face model wrappers. `TOK` prepares tokenization, `NTP` performs base pretraining, `SFT` performs supervised fine-tuning, and `RL` performs reinforcement learning. Ledger updates use the stage codes `RND`, `NTP`, `SFT`, `RL`, and `AGG`.
+
+Start with:
+
+- [Supported Models](/get-started/supported-models) and [Supported Datasets](/get-started/supported-datasets)
+- [Python Environment](/setup/environment) and [Virtual Memory](/setup/virtual-memory)
+- [Training Package](/features/training-package) and [Train Model](/usage/train-model)

@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # Python Environment
 
-GoodWoolf uses [uv](https://docs.astral.sh/uv/) for dependency management.
+GoodWoolf v0.1.0 uses [uv](https://docs.astral.sh/uv/) for dependency management. The CLI is installed under both `goodwoolf` and `gw`; the examples use `gw`.
 
-To setup and activate Python environment:
+To set up and activate the Python environment:
 
 ```bash
 uv sync
@@ -14,6 +14,9 @@ source .venv/bin/activate
 ```
 
 The project uses the following environment variables:
+
 - `GOODWOOLF_DATA` - Directory path to store training data. If not set, it defaults to `$HOME/.goodwoolf/data`.
 - `GOODWOOLF_MODELS` - Directory path to store model weights. If not set, it defaults to `$HOME/.goodwoolf/models`.
 - `GOODWOOLF_LEDGER` - Directory path to the training ledger repo. Must be defined for automated ledger updates.
+
+For an isolated training host, see [Virtual Memory](/setup/virtual-memory) for the Podman machine and container workflow.

@@ -2,8 +2,14 @@
 sidebar_position: 2
 ---
 
-# Traning Package
+# Training Package
 
-**GoodWoolf** is a Python package hosted on [GitHub](https://github.com/GoodWoolf-AI/GoodWoolf).
+**GoodWoolf** v0.1.0 is a Python package hosted on [GitHub](https://github.com/GoodWoolf-AI/GoodWoolf).
 
-It provides tools for managing model training workflows and sharing training logs with the open-source community.
+It provides a single CLI, available as `goodwoolf` or `gw`, for preparing data, creating models, training stages, generating text, and managing the training ledger. Native Puppy and Hugging Face wrappers share the same model IDs and stage interface.
+
+Model-specific runtime and training code lives under `src/goodwoolf/models/<vendor>/<model>/`. Shared helpers live in `goodwoolf.utils.common` and `goodwoolf.utils.training`; model-local `common.py` files are not used. Hugging Face wrappers use `AutoModelForCausalLM`, accept local or fetched configs, and load safetensors with bare or `model.`-prefixed keys.
+
+Training stages are `TOK`, `NTP`, `SFT`, and `RL`. `TOK` is a preparation stage: Puppy trains a RustBPE tokenizer, while Hugging Face wrappers prepare only `token_bytes.pt`. SFT packing and target masking are owned by `SFTDataLoader`. All wrappers follow the same generate contract so `gw run` and `gw chat` can use either model family.
+
+See [Supported Models](/get-started/supported-models), [Supported Datasets](/get-started/supported-datasets), and [Training Process](/features/training-process) for the surrounding workflow.
