@@ -6,7 +6,7 @@ sidebar_position: 4
 
 Because training occurs asynchronously across contributors, the aggregate training time does not depend on a global synchronization barrier or the speed of the slowest node. Workloads run fully concurrently, meaning the system never pauses to wait for a specific training run or a global reduction tree to complete.
 
-In v0.1.0, the committed unit of work is an update. Ledger entries label those updates as `NTP`, `SFT`, `RL`, or `AGG`; `RND` is the zero stage used when publishing randomized weights. Checkpoints record `update_count`, `examples_consumed`, and `best_val_bpb`. SFT loader state records `buffer`, `epoch`, `finished`, `num_epochs`, and `record_index`, so a resumed run continues the data stream. Legacy checkpoints without that state restart the data stream.
+The committed unit of work is an update. Ledger entries label those updates as `NTP`, `SFT`, `RL`, or `AGG`; `RND` is the zero stage used when publishing randomized weights. Checkpoints record `update_count`, `examples_consumed`, and `best_val_bpb`. SFT loader state records `buffer`, `epoch`, `finished`, `num_epochs`, and `record_index`, so a resumed run continues the data stream. Legacy checkpoints without that state restart the data stream.
 
 When a node submits an update, it is validated, aggregated, and merged directly into the global model by network peers or auditors. Because the calculations for handling race conditions and staleness are distributed across the validation network, individual trainers incur constant (O(1)) coordination overhead—they immediately resume training on the latest weights without waiting for other contributors.
 

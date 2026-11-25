@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Model Poisoning Controls
 
-GoodWoolf treats each submitted update as untrusted until it has been checked. The v0.1.0 design uses Deterministic Gatekeeping (Benchmark Verification): `gw merge` validates the new checkpoint on the requested dataset before merging it into the active model.
+GoodWoolf treats each submitted update as untrusted until it has been checked. The design uses Deterministic Gatekeeping (Benchmark Verification): `gw merge` validates the new checkpoint on the requested dataset before merging it into the active model.
 
 Stage codes make the update type explicit. `RND` is the zero stage for publishing randomized weights, while `NTP`, `SFT`, `RL`, and `AGG` label updates that are subject to validation before they change the active model. The requested dataset should match the stage: pretraining corpora for NTP, SFT datasets such as `allenai/ai2_arc` and `HuggingFaceTB/smoltalk`, or RL data such as `openai/gsm8k`.
 

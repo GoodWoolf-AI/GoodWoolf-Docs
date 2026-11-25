@@ -39,11 +39,11 @@ Ledger entries use stage-code operators:
 Create and check entries with:
 
 ```bash
-gw ledger <vendor>/<model> --create <OPERATOR>
-gw ledger <vendor>/<model> --check
+gw ledger create <vendor>/<model> --stage <OPERATOR>
+gw ledger check <vendor>/<model>
 ```
 
-Use `--create RND` when publishing a new model with randomized weights. Use `NTP`, `SFT`, `RL`, or `AGG` for updates produced by those stages or by aggregation.
+Use `gw ledger create <vendor>/<model> --stage RND` when publishing a new model with randomized weights. Use `NTP`, `SFT`, `RL`, or `AGG` for updates produced by those stages or by aggregation.
 
 Ledger entry IDs are referenced with `--model-id` by model commands:
 

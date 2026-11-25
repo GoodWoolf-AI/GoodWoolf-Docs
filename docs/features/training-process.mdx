@@ -8,7 +8,7 @@ The training process is hardware-agnostic, parallel, and completely asynchronous
 
 Model weights are available throughout the entire training process. Both the global model weights and the submitted ledger entries are fully observable. Model weights are versioned and tracked in a central, publicly accessible [Training Ledger](/features/training-ledger).
 
-In v0.1.0, a unit of committed work is an **update**. `RND` is the zero stage used to publish a newly created model with randomized weights. `NTP`, `SFT`, and `RL` label updates produced by those training stages, and `AGG` labels aggregated updates. NTP training uses pretraining corpora such as `nvidia/climbmix`. SFT uses task or conversation records from `allenai/ai2_arc`, `openai/humaneval`, `cais/mmlu`, and `HuggingFaceTB/smoltalk`. RL uses worked-solution data such as `openai/gsm8k`.
+A unit of committed work is an **update**. `RND` is the zero stage used to publish a newly created model with randomized weights. `NTP`, `SFT`, and `RL` label updates produced by those training stages, and `AGG` labels aggregated updates. NTP training uses pretraining corpora such as `nvidia/climbmix`. SFT uses prompt/response records from `allenai/ai2_arc`, `openai/humaneval`, `cais/mmlu`, and `HuggingFaceTB/smoltalk`. RL uses worked-solution data such as `openai/gsm8k`.
 
 Checkpoints include model, optimizer, and loader state together with update progress: `update_count`, `examples_consumed`, and `best_val_bpb`. SFT loader state records `buffer`, `epoch`, `finished`, `num_epochs`, and `record_index`. Legacy checkpoints without the current loader state restart the data stream.
 
@@ -18,7 +18,7 @@ The decentralized training workflow is illustrated visually **(A)** and in pseud
 
 ### A) Visual representation of Decentralized Training Workflow
 
-![Training Process](./img/training.jpg)
+![Training Process](./img/training.svg)
 
 ### B) Pseudocode representation of Decentralized Training Workflow
 

@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Create a New Model
 
-New models are added to and shared through [GoodWoolf](/features/training-package). The bundled base models are `GoodWoolf/Puppy`, `OpenAI-Community/GPT2`, and `Qwen/Qwen2-0.5B`.
+New models are added to and shared through [GoodWoolf](/features/training-package). Creating a model involves defining its configuration, adding training code, and generating initial model weights.
 
 Install the package in editable mode if needed:
 
@@ -15,22 +15,23 @@ uv pip install -e .
 List models available locally, optionally for one vendor, or from Hugging Face:
 
 ```bash
-gw model --list
-gw model --list GoodWoolf
-gw model --list --remote hf Qwen
+gw model list
+gw model list GoodWoolf
+gw model list --remote hf Qwen
 ```
 
 To create a new model, copy the training code from the GPT2 template, then fetch the model configuration and generate randomized weights:
 
 ```bash
-gw model <vendor>/<new-model> --template OpenAI-Community/GPT2
-gw model <vendor>/<new-model> --config --weights
+gw model template <vendor>/<new-model> OpenAI-Community/GPT2
+gw model config <vendor>/<new-model>
+gw model weights <vendor>/<new-model>
 ```
 
 The commands create the following folders:
 
 - `<gw_repo>/src/goodwoolf/models/<vendor>/<new-model>` - Training code copied from the template.
-- `<gw_repo>/src/goodwoolf/config/<vendor>/<new-model>` - Model configuration fetched with `--config`. Template copying skips `config/`, so fetch it separately.
-- `$GOODWOOLF_MODELS/<vendor>/<new-model>` - Initial randomized weights created with `--weights`.
+- `<gw_repo>/src/goodwoolf/config/<vendor>/<new-model>` - Model configuration fetched with `gw model config`. Template copying skips `config/`, so fetch it separately.
+- `$GOODWOOLF_MODELS/<vendor>/<new-model>` - Initial randomized weights created with `gw model weights`.
 
 You can edit the configuration and training code manually for complete customization. Publish newly created randomized weights with the `RND` ledger operator, as described in [Publish a New Model](publish-model).

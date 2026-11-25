@@ -35,12 +35,12 @@ export GOODWOOLF_LEDGER=<gw_ledger_repo>
 
 Add a new entry to the model ledger using `RND`, the zero stage for a newly published model with randomized weights:
 ```bash
-gw ledger <vendor>/<model> --create RND
+gw ledger create <vendor>/<model> --stage RND
 ```
 
 Update the `training.ledger.json` in (3) and set the new entry's `url` to the URL in (1) where the initial model weights are uploaded, then check the entry:
 ```bash
-gw ledger <vendor>/<model> --check
+gw ledger check <vendor>/<model>
 ```
 
 Create a new PR ref as an HF discussion:

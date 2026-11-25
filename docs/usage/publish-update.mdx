@@ -22,14 +22,14 @@ gw save <vendor>/<model> --load-path $GOODWOOLF_MODELS/<vendor>/<model>/chpt.pt
 
 Add a new entry to the model ledger using the stage code that produced the weights:
 ```bash
-gw ledger <vendor>/<model> --create NTP
+gw ledger create <vendor>/<model> --stage NTP
 ```
 
 Use `NTP`, `SFT`, `RL`, or `AGG` for base pretraining, fine-tuning, reinforcement learning, or aggregated updates. `RND` is reserved for publishing new randomized models.
 
 Update the `training.ledger.json` in (3) and set the new entry's `url` to the URL in (2) where the updated weights are uploaded. Set the `operator` to the matching stage code. Set the `inputs` to the base training model or a list of aggregated models, each referenced by its `<MODEL_ID>`. Check the entry:
 ```bash
-gw ledger <vendor>/<model> --check
+gw ledger check <vendor>/<model>
 ```
 
 Use `--model-id` when working with a specific ledger entry:

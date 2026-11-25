@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Supported Models
 
-Version 0.1.0 bundles three model IDs. These are the `<vendor>/<model>` names used by the CLI.
+GoodWoolf bundles three model IDs. These are the `<vendor>/<model>` names used by the CLI.
 
 | Model ID | Summary |
 | --- | --- |
@@ -15,16 +15,17 @@ Version 0.1.0 bundles three model IDs. These are the `<vendor>/<model>` names us
 List installed or remote models:
 
 ```bash
-gw model --list
-gw model --list <vendor>
-gw model --list --remote hf [vendor]
+gw model list
+gw model list <vendor>
+gw model list --remote hf [vendor]
 ```
 
 Create a new model from the GPT2 template, then fetch its config and generate randomized weights:
 
 ```bash
-gw model <vendor>/<model> --template OpenAI-Community/GPT2
-gw model <vendor>/<model> --config --weights
+gw model template <vendor>/<model> OpenAI-Community/GPT2
+gw model config <vendor>/<model>
+gw model weights <vendor>/<model>
 ```
 
 Template copying skips `config/`, so model config is fetched with `--config`, not copied from the template.

@@ -21,9 +21,7 @@ To enable large-scale training on commodity hardware, GoodWoolf utilizes model o
 
 While storage offloading introduces latency, GoodWoolf recaptures this lost time through continuous asynchronous parallel training. By allowing many participants to submit updates independently without waiting on each other, the collective throughput of continuous computations outweighs individual hardware bottlenecks. This parallelism enables networks of commodity nodes to train large models without requiring high-performance infrastructure.
 
-## Version 0.1.0
-
-The v0.1.0 package provides a unified CLI for native Puppy and Hugging Face model wrappers. `TOK` prepares tokenization, `NTP` performs base pretraining, `SFT` performs supervised fine-tuning, and `RL` performs reinforcement learning. Ledger updates use the stage codes `RND`, `NTP`, `SFT`, `RL`, and `AGG`.
+GoodWoolf provides a unified CLI for native Puppy and Hugging Face model wrappers. `TOK` prepares tokenization, `NTP` performs base pretraining, `SFT` performs supervised fine-tuning, and `RL` performs reinforcement learning. Ledger updates use the stage codes `RND`, `NTP`, `SFT`, `RL`, and `AGG`.
 
 Start with:
 

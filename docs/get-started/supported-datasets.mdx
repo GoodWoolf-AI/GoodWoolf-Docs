@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Supported Datasets
 
-Version 0.1.0 installs the following datasets. The stage column shows where each dataset is intended to be used.
+GoodWoolf includes the following datasets. The stage column shows where each dataset is intended to be used.
 
 | Dataset ID | Stage | Notes |
 | --- | --- | --- |
@@ -21,13 +21,14 @@ Version 0.1.0 installs the following datasets. The stage column shows where each
 List installed datasets:
 
 ```bash
-gw dataset --list
+gw dataset list
 ```
 
 Fetch and prepare a dataset:
 
 ```bash
-gw dataset <DATASET> --fetch --prepare
+gw dataset fetch <DATASET>
+gw dataset prepare <DATASET>
 ```
 
-Dataset scripts also support `--metadata`, `--split`, and `--sample START COUNT` for inspecting prepared data. See [Train Model](/usage/train-model) for stage selection.
+Dataset subcommands also support `gw dataset metadata <DATASET> [--split SPLIT]` and `gw dataset sample <DATASET> [START] [COUNT] [--split SPLIT]` for inspecting prepared data. See [Train Model](/usage/train-model) for stage selection.

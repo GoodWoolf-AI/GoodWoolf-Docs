@@ -7,7 +7,7 @@ sidebar_position: 2
 Training data is private, but the project bundles a small set of public datasets. List the installed datasets:
 
 ```bash
-gw dataset --list
+gw dataset list
 ```
 
 | Dataset ID | Stage | Notes |
@@ -25,9 +25,10 @@ gw dataset --list
 To fetch and prepare one of these datasets:
 
 ```bash
-gw dataset <DATASET> --fetch --prepare
+gw dataset fetch <DATASET>
+gw dataset prepare <DATASET>
 ```
 
-For example, `gw dataset openai/gsm8k --fetch --prepare` prepares the GSM8K dataset for SFT and RL. Dataset scripts also support `--metadata` to print statistics, `--split SPLIT` to select a split, and `--sample START COUNT` to inspect records.
+For example, `gw dataset fetch openai/gsm8k` followed by `gw dataset prepare openai/gsm8k` prepares the GSM8K dataset for SFT and RL. Use `gw dataset metadata <DATASET> [--split SPLIT]` to print statistics and `gw dataset sample <DATASET> [START] [COUNT] [--split SPLIT]` to inspect records.
 
 Prepared data is written under `$GOODWOOLF_DATA/<DATASET>`. Training stages load it by passing the same ID with `--data-name`; see [Train Model](train-model).

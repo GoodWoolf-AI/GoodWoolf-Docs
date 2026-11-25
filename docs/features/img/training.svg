@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" aria-labelledby="t d" style="--bg:#f8fafc;--panel:#ffffff;--ink:#0f172a;--muted:#475569;--g-fill:#ecfccb;--g-stroke:#a3e635;--g-acc:#4d7c0f;--b-fill:#dbeafe;--b-stroke:#93c5fd;--b-acc:#1d4ed8;--o-fill:#ffedd5;--o-stroke:#fdba74;--o-acc:#c2410c;--shadow:0.10">
+  <desc id="d">Participants A, B and C exchange training updates and model weights with a Training Ledger. A peer or independent auditor validates and aggregates accepted updates against the ledger.</desc>
+  <style>text{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif}.title{font-size:20px;font-weight:650;fill:var(--ink)}.sub{font-size:13px;fill:var(--muted)}.li{font-size:14px;fill:var(--ink)}.chip-t{font-size:13px;font-weight:550;text-anchor:middle}.b,.g,.o{fill:var(--g-fill);stroke:var(--g-stroke);stroke-width:1.5}.b,.o{fill:var(--b-fill);stroke:var(--b-stroke)}.o{fill:var(--o-fill);stroke:var(--o-stroke)}.g-acc{fill:var(--g-acc)}.b-acc{fill:var(--b-acc)}.o-acc{fill:var(--o-acc)}.g-ink{stroke:var(--g-acc)}.b-ink{stroke:var(--b-acc)}.o-ink{stroke:var(--o-acc)}.badge,.chip{fill:var(--panel)}.chip{stroke:var(--b-stroke);stroke-width:1.2}.chip-t{fill:var(--b-acc)}.glyph{fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}</style>
+  <defs>
+    <marker id="head-g" markerHeight="5" markerWidth="5" orient="auto" refX="8" refY="5" viewBox="0 0 10 10">
+      <path d="m0 0 10 5-10 5z" style="fill:var(--g-acc)"/>
+    </marker>
+    <marker id="head-b" markerHeight="5" markerWidth="5" orient="auto" refX="8" refY="5" viewBox="0 0 10 10">
+      <path d="m0 0 10 5-10 5z" style="fill:var(--b-acc)"/>
+    </marker>
+    <marker id="head-o" markerHeight="5" markerWidth="5" orient="auto" refX="8" refY="5" viewBox="0 0 10 10">
+      <path d="m0 0 10 5-10 5z" style="fill:var(--o-acc)"/>
+    </marker>
+    <filter id="shadow" width="120%" height="140%" x="-10%" y="-15%">
+      <feDropShadow dx="0" dy="6" flood-color="#0f172a" stdDeviation="8" style="flood-opacity:var(--shadow)"/>
+    </filter>
+  </defs>
+  <g style="fill:none;stroke-width:2.5;stroke-linecap:round">
+    <path marker-end="url(#head-g)" d="M141 172v202" class="g-ink"/>
+    <path marker-end="url(#head-b)" d="M189 374V172" class="b-ink"/>
+    <path marker-end="url(#head-g)" d="M386 172v202" class="g-ink"/>
+    <path marker-end="url(#head-b)" d="M434 374V172" class="b-ink"/>
+    <path marker-end="url(#head-g)" d="M631 172v202" class="g-ink"/>
+    <path marker-end="url(#head-b)" d="M679 374V172" class="b-ink"/>
+    <path marker-end="url(#head-b)" d="M370 506v108" class="b-ink"/>
+    <path marker-end="url(#head-o)" d="M450 614V506" class="o-ink"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect width="210" height="96" x="60" y="70" class="g" rx="18"/>
+    <rect width="210" height="96" x="305" y="70" class="g" rx="18"/>
+    <rect width="210" height="96" x="550" y="70" class="g" rx="18"/>
+  </g>
+  <circle cx="94" cy="118" r="18" class="badge"/>
+  <circle cx="339" cy="118" r="18" class="badge"/>
+  <circle cx="584" cy="118" r="18" class="badge"/>
+  <g class="glyph g-ink">
+    <g transform="translate(94 118)">
+      <ellipse cy="-6" rx="8" ry="3.2"/>
+      <path d="M-8-6V6c0 1.8 3.6 3.2 8 3.2S8 7.8 8 6V-6"/>
+      <path d="M-8 0c0 1.8 3.6 3.2 8 3.2S8 1.8 8 0"/>
+    </g>
+    <g transform="translate(339 118)">
+      <ellipse cy="-6" rx="8" ry="3.2"/>
+      <path d="M-8-6V6c0 1.8 3.6 3.2 8 3.2S8 7.8 8 6V-6"/>
+      <path d="M-8 0c0 1.8 3.6 3.2 8 3.2S8 1.8 8 0"/>
+    </g>
+    <g transform="translate(584 118)">
+      <ellipse cy="-6" rx="8" ry="3.2"/>
+      <path d="M-8-6V6c0 1.8 3.6 3.2 8 3.2S8 7.8 8 6V-6"/>
+      <path d="M-8 0c0 1.8 3.6 3.2 8 3.2S8 1.8 8 0"/>
+    </g>
+  </g>
+  <text x="122" y="116" class="title">Participant A</text>
+  <text x="122" y="138" class="sub">Local data &amp; training</text>
+  <text x="367" y="116" class="title">Participant B</text>
+  <text x="367" y="138" class="sub">Local data &amp; training</text>
+  <text x="612" y="116" class="title">Participant C</text>
+  <text x="612" y="138" class="sub">Local data &amp; training</text>
+  <rect width="700" height="120" x="60" y="380" class="b" filter="url(#shadow)" rx="20"/>
+  <circle cx="96" cy="410" r="20" class="badge"/>
+  <g class="glyph b-ink">
+    <path d="m96 401 10 5-10 5-10-5Z"/>
+    <path d="m86 410 10 5 10-5"/>
+    <path d="m86 414 10 5 10-5"/>
+  </g>
+  <text x="130" y="418" style="font-size:22px;font-weight:650;fill:var(--ink)">Training Ledger</text>
+  <rect width="200" height="34" x="90" y="444" class="chip" rx="17"/>
+  <text x="190" y="466" class="chip-t">Model base weights</text>
+  <rect width="200" height="34" x="310" y="444" class="chip" rx="17"/>
+  <text x="410" y="466" class="chip-t">Training updates / PRs</text>
+  <rect width="200" height="34" x="530" y="444" class="chip" rx="17"/>
+  <text x="630" y="466" class="chip-t">Training History</text>
+  <rect width="350" height="100" x="235" y="620" class="o" filter="url(#shadow)" rx="18"/>
+  <circle cx="273" cy="670" r="20" class="badge"/>
+  <g class="glyph o-ink">
+    <path d="m273 660 9 4v6c0 5-4 8.5-9 10-5-1.5-9-5-9-10v-6Z"/>
+    <path d="m269 670 3 3 6-6"/>
+  </g>
+  <text x="307" y="665" class="title">Peer / Independent Auditor</text>
+  <text x="307" y="688" class="sub">Validate &amp; aggregate &#xB7; Accept PRs</text>
+  <rect width="380" height="506" x="800" y="64" filter="url(#shadow)" rx="22" style="fill:var(--panel);stroke:#e2e8f0;stroke-width:1.5"/>
+  <text x="820" y="104" style="font-size:18px;font-weight:650;fill:var(--ink)">Legend</text>
+  <rect width="340" height="134" x="820" y="130" class="g" rx="16"/>
+  <circle cx="842" cy="162" r="3" class="g-acc"/>
+  <text x="858" y="166" class="li">Local data</text>
+  <circle cx="842" cy="188" r="3" class="g-acc"/>
+  <text x="858" y="192" class="li">Local training</text>
+  <circle cx="842" cy="214" r="3" class="g-acc"/>
+  <text x="858" y="218" class="li">Publish model</text>
+  <circle cx="842" cy="240" r="3" class="g-acc"/>
+  <text x="858" y="244" class="li">Create pull request</text>
+  <rect width="340" height="108" x="820" y="284" class="b" rx="16"/>
+  <circle cx="842" cy="316" r="3" class="b-acc"/>
+  <text x="858" y="320" class="li">Model base weights</text>
+  <circle cx="842" cy="342" r="3" class="b-acc"/>
+  <text x="858" y="346" class="li">Training updates / PRs</text>
+  <circle cx="842" cy="368" r="3" class="b-acc"/>
+  <text x="858" y="372" class="li">Training History</text>
+  <rect width="340" height="134" x="820" y="412" class="o" rx="16"/>
+  <circle cx="842" cy="444" r="3" class="o-acc"/>
+  <text x="858" y="448" class="li">Validate and aggregate</text>
+  <text x="858" y="468" class="li">accepted updates</text>
+  <circle cx="842" cy="490" r="3" class="o-acc"/>
+  <text x="858" y="494" class="li">Publish updated models</text>
+  <circle cx="842" cy="516" r="3" class="o-acc"/>
+  <text x="858" y="520" class="li">Accept pull requests</text>
+</svg>

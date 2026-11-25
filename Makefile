@@ -6,7 +6,7 @@ TAG      = v$(VERSION)
 ARTIFACT = goodwoolf-docs-$(TAG).zip
 REPO ?= $(shell git remote get-url origin | sed -E 's#^(git@|ssh://git@|https://)[^:/]+[:/]##; s#\.git$$##')
 
-.PHONY: release tick-version build clean check-gh install-gh
+.PHONY: release tick-version build run clean check-gh install-gh
 
 tick-version:
 	npm version patch --no-git-tag-version
@@ -47,6 +47,9 @@ check-gh:
 
 build:
 	npm run build
+
+run:
+	npm run start
 
 release: check-gh build
 	@test -f RELEASE.md || (echo "RELEASE.md not found." && exit 1)

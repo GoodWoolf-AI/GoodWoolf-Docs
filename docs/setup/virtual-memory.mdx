@@ -4,7 +4,9 @@ sidebar_position: 2
 
 # Virtual Memory
 
-Training large models on commodity hardware relies on virtual memory to supplement VRAM. The v0.1.0 workflow uses the Podman machine and container targets in the GoodWoolf core repository Makefile. Run these commands from that repository root.
+Training large models on commodity hardware relies on virtual memory to supplement available VRAM. Training can run directly on the host by increasing its virtual memory capacity. However, using a container is recommended to isolate training workloads from other host processes. The GoodWoolf CLI can create and manage this container.
+
+For an additional layer of isolation, GoodWoolf also supports running a Podman machine, even on Linux systems where a machine is not normally required. A Podman machine provides an independent virtual memory environment with its own swap space, separating container swap from host swap. This separation helps protect host performance from the memory demands while allowing training workloads to take advantage of extended virtual memory.
 
 ## Prerequisites
 
@@ -17,46 +19,47 @@ Install these helpers before creating a machine:
 Run:
 
 ```bash
-make check-machine
+gw machine check
 ```
 
-This verifies the prerequisites and prints the resolved paths. The Makefile also generates `.podman-helpers.conf` so Podman can find `gvproxy`.
+This verifies the prerequisites and prints the resolved paths. `gw machine create` also writes `.podman-helpers.conf` in the current directory so Podman can find `gvproxy`.
 
-## Machine targets
+## Machine commands
 
 ```bash
-make setup-machine DISK_SIZE=100 SWAP_SIZE=50 RAM_SIZE=8192
-make open-machine
-make clear-machine
+gw machine create --disk-size 100 --swap-size 50 --ram-size 8192
+gw machine open
+gw machine remove
 ```
 
-`setup-machine` initializes the machine with `--swap 0`, starts it, then creates and enables `/var/swapfile` inside the machine. `open-machine` starts the machine if needed and opens an SSH shell. `clear-machine` removes the machine and the generated config.
+`gw machine create` initializes the machine with `--swap 0`, starts it, then creates and enables `/var/swapfile` inside the machine. `gw machine open` starts the machine if needed and opens an SSH shell. `gw machine remove` removes the machine and the generated config.
 
-| Variable | Meaning | Default |
+| Option | Meaning | Default |
 | --- | --- | --- |
-| `RAM_SIZE` | Machine memory in MiB | Required for `setup-machine` |
-| `DISK_SIZE` | Machine disk size in GiB | Required for `setup-machine` |
-| `SWAP_SIZE` | Swap file size in GiB | Required for `setup-machine` |
-| `CPUS` | Machine CPU count | `2` |
-| `MACHINE_NAME` | Podman machine name | `goodwoolf-machine` |
+| `--ram-size` | Machine memory in MiB | Required for `gw machine create` |
+| `--disk-size` | Machine disk size in GiB | Required for `gw machine create` |
+| `--swap-size` | Swap file size in GiB | Required for `gw machine create` |
+| `--cpus` | Machine CPU count | `2` |
+| `--machine-name` | Podman machine name | `goodwoolf-machine` |
 
-## Container targets
+## Container commands
 
 ```bash
-make create-container RAM_SIZE=8192 SWAP_SIZE=50
-make start-container
-make stop-container
-make open-container
-make remove-container
+gw container create --ram-size 8192 --swap-size 50
+gw container start
+gw container stop
+gw container shell
+gw container remove
 ```
 
-`create-container` applies the memory and swap limits to the container. `open-container` starts the container if needed and opens an interactive bash shell; multiple shells can be opened from separate terminals.
+`gw container create` applies the memory and swap limits to the container. `gw container shell` starts the container if needed and opens an interactive bash shell; multiple shells can be opened from separate terminals.
 
-| Variable | Meaning | Default |
+| Option | Meaning | Default |
 | --- | --- | --- |
-| `RAM_SIZE` | Container memory in MiB | Required for `create-container` |
-| `SWAP_SIZE` | Container swap in GiB | Required for `create-container` |
-| `CONTAINER_NAME` | Container name | `goodwoolf` |
-| `IMAGE` | Container image | `docker.io/library/ubuntu:24.04` |
-| `HOST_DIR` | Directory mounted from the host | Core repository root |
-| `CONTAINER_DIR` | Mount point inside the container | `/workspace` |
+| `--ram-size` | Container memory in MiB | Required for `gw container create` |
+| `--swap-size` | Container swap in GiB | Required for `gw container create` |
+| `--machine-name` | Podman machine connection | `goodwoolf-machine` |
+| `--container-name` | Container name | `goodwoolf` |
+| `--image` | Container image | `docker.io/library/ubuntu:24.04` |
+| `--host-dir` | Directory mounted from the host | Current directory |
+| `--container-dir` | Mount point inside the container | `/workspace` |
