@@ -79,7 +79,7 @@ check-release:
 
 .PHONY: release
 release: check-gh check-version check-release
-	rm -rf dist
+	$(MAKE) clean
 	$(MAKE) build
 	rm -f $(ARTIFACT)
 	(cd build && zip -rq ../$(ARTIFACT) .)
