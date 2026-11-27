@@ -82,7 +82,7 @@ release: check-gh check-version check-release
 	rm -rf dist
 	$(MAKE) build
 	rm -f $(ARTIFACT)
-	(cd dist && zip -rq ../$(ARTIFACT) .)
+	(cd build && zip -rq ../$(ARTIFACT) .)
 	@git rev-parse -q --verify "refs/tags/$(TAG)" >/dev/null || git tag $(TAG)
 	git push origin HEAD $(TAG)
 	gh release create $(TAG) $(ARTIFACT) \
