@@ -4,62 +4,129 @@ sidebar_position: 2
 
 # Virtual Memory
 
-Training large models on commodity hardware relies on virtual memory to supplement available VRAM. Training can run directly on the host by increasing its virtual memory capacity. However, using a container is recommended to isolate training workloads from other host processes. The GoodWoolf CLI can create and manage this container.
+Training large models can require more virtual memory than a machine has in RAM or VRAM. This page describes two ways to provide it: add swap directly on a host dedicated to training, or use GoodWoolf's Podman wrappers to give a container isolated CPU, memory, and swap resources. Follow the section that matches your setup.
 
-For an additional layer of isolation, GoodWoolf also supports running a Podman machine, even on Linux systems where a machine is not normally required. A Podman machine provides an independent virtual memory environment with its own swap space, separating container swap from host swap. This separation helps protect host performance from the memory demands while allowing training workloads to take advantage of extended virtual memory.
+## Host virtual memory
 
-## Prerequisites
+Use host swap when the machine is fully dedicated to training and you want the host itself to provide additional virtual memory. This affects every process on the host, so it is a good fit only for dedicated training machines.
 
-Install these helpers before creating a machine:
-
-- `podman`
-- `gvproxy` on `PATH`
-- `virtiofsd` on `PATH` or in `/usr/libexec`
-
-Run:
+Create a swap file. This example creates a 90G swap file at `/swapfile`:
 
 ```bash
-gw machine check
+sudo fallocate -l 90G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
 ```
 
-This verifies the prerequisites and prints the resolved paths. `gw machine create` also writes `.podman-helpers.conf` in the current directory so Podman can find `gvproxy`.
-
-## Machine commands
+On btrfs, replace the `fallocate` command with:
 
 ```bash
-gw machine create --disk-size 100 --swap-size 50 --ram-size 8192
-gw machine open
+sudo btrfs filesystem mkswapfile --size 90g /swapfile
+```
+
+Enable the swap file immediately:
+
+```bash
+sudo swapon /swapfile
+```
+
+Make the swap file persistent by adding it to `/etc/fstab`:
+
+```bash
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+Verify that the swap file is active:
+
+```bash
+swapon --show
+free -h
+```
+
+After a reboot, the entry in `/etc/fstab` enables the swap file automatically.
+
+## Container virtual memory
+
+Use a container when you want to increase virtual resources in isolation from the host. GoodWoolf's `gw machine` and `gw container` commands are convenient wrappers around Podman. A Podman machine adds another isolation layer with its own swap space; a container limits CPU, memory, and swap for training workloads.
+
+### Configure Podman helpers
+
+Install `podman`, `gvproxy`, and `virtiofsd`. Add the Podman helper directories so Podman can find `gvproxy`:
+
+```bash
+cat << 'EOF' >> ~/.config/containers/containers.conf
+
+[engine]
+helper_binaries_dir = [
+  "/usr/local/libexec/podman",
+  "/usr/local/lib/podman",
+  "/usr/libexec/podman",
+  "/usr/lib/podman",
+  "/usr/bin"
+]
+EOF
+```
+
+If `virtiofsd` is installed in `/usr/libexec`, add that directory to your shell path:
+
+```bash
+export PATH="$PATH:/usr/libexec"
+```
+
+GoodWoolf does not generate a helper config in the project directory. Podman reads the configuration from `~/.config/containers/containers.conf`.
+
+### Create and manage a Podman machine
+
+A Podman machine is optional, but it gives the container a separate virtual memory environment. Create the machine named `goodwoolf-machine`:
+
+```bash
+gw machine create --cpus 2 --ram-size 4 --disk-size 100 --swap-size 90
+```
+
+`gw machine create` initializes the machine but does not start it. Start it, open an SSH shell, stop it, or remove it with:
+
+```bash
+gw machine start
+gw machine shell
+gw machine stop
 gw machine remove
 ```
 
-`gw machine create` initializes the machine with `--swap 0`, starts it, then creates and enables `/var/swapfile` inside the machine. `gw machine open` starts the machine if needed and opens an SSH shell. `gw machine remove` removes the machine and the generated config.
-
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `--ram-size` | Machine memory in MiB | Required for `gw machine create` |
-| `--disk-size` | Machine disk size in GiB | Required for `gw machine create` |
-| `--swap-size` | Swap file size in GiB | Required for `gw machine create` |
-| `--cpus` | Machine CPU count | `2` |
-| `--machine-name` | Podman machine name | `goodwoolf-machine` |
+| `--cpus` | Machine CPU count | Not passed when omitted |
+| `--disk-size` | Machine disk size in GiB | Not passed when omitted |
+| `--ram-size` | Machine memory in GiB | Not passed when omitted |
+| `--swap-size` | Machine swap in GiB | Not passed when omitted |
 
-## Container commands
+Values are supplied in GiB. Python converts memory and swap to the MiB units expected by Podman. Omitted options are left out of the Podman command, so Podman's own defaults apply.
+
+### Create and manage the container
+
+Create the container named `goodwoolf` from `docker.io/library/ubuntu`:
 
 ```bash
-gw container create --ram-size 8192 --swap-size 50
+gw container create --cpus 2 --ram-size 4 --disk-size 100 --swap-size 90
+```
+
+The current local directory is mapped to `/workspace` inside the container, so run this command from the project root when you want the project available at `/workspace`.
+
+`gw container create` creates the container but does not start it. Start it, open a shell, stop it, or remove it with:
+
+```bash
 gw container start
-gw container stop
 gw container shell
+gw container stop
 gw container remove
 ```
 
-`gw container create` applies the memory and swap limits to the container. `gw container shell` starts the container if needed and opens an interactive bash shell; multiple shells can be opened from separate terminals.
+`gw container shell` opens an interactive bash shell and starts the container if needed. Multiple shells can be opened from separate terminals.
 
 | Option | Meaning | Default |
 | --- | --- | --- |
-| `--ram-size` | Container memory in MiB | Required for `gw container create` |
-| `--swap-size` | Container swap in GiB | Required for `gw container create` |
-| `--machine-name` | Podman machine connection | `goodwoolf-machine` |
-| `--container-name` | Container name | `goodwoolf` |
-| `--image` | Container image | `docker.io/library/ubuntu:24.04` |
-| `--host-dir` | Directory mounted from the host | Current directory |
-| `--container-dir` | Mount point inside the container | `/workspace` |
+| `--cpus` | Container CPU count | Not passed when omitted |
+| `--disk-size` | Container disk size in GiB | Not passed when omitted |
+| `--ram-size` | Container memory in GiB | Not passed when omitted |
+| `--swap-size` | Container swap in GiB | Not passed when omitted |
+
+As with `gw machine create`, values are supplied in GiB and omitted options are left out of the Podman command.
