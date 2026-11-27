@@ -51,6 +51,16 @@ build:
 run:
 	npm run start
 
+.PHONY: delete-tag
+delete-tag:
+	-git tag -d $(TAG)
+	git push origin --delete $(TAG)
+
+.PHONY: delete-branch
+delete-branch:
+	-git branch -d $(BRANCH)
+	git push origin --delete $(BRANCH)
+
 .PHONY: check-version
 check-version:
 	@test -n "$(VERSION)" || { echo "Could not read version from pyproject.toml."; exit 1; }
@@ -75,7 +85,11 @@ release: check-gh check-version check-release
 	(cd dist && zip -rq ../$(ARTIFACT) .)
 	@git rev-parse -q --verify "refs/tags/$(TAG)" >/dev/null || git tag $(TAG)
 	git push origin HEAD $(TAG)
-	gh release create $(TAG) $(ARTIFACT) --repo $(REPO) --verify-tag --title "$(TAG)"
+	gh release create $(TAG) $(ARTIFACT) \
+		--repo $(REPO) \
+		--verify-tag \
+		--title "$(TAG)" \
+		--notes-file RELEASE.md
 
 clean:
 	rm -f $(ARTIFACT)
